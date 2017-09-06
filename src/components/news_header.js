@@ -82,7 +82,7 @@ axios.get(url)
     this.setState({modalShow:false})
   }
   render(){
-  const {selectedKey,clickMenu,username,modalShow}=this.state
+  const {selectedKey,username,modalShow}=this.state
     //判断是否登陆，以显示页面
     const userShow=username ? (
       <Menu.Item key="login" className="register">
