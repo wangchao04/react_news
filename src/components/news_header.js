@@ -15,16 +15,8 @@ state={
   showModal=(isShow)=>{
   this.setState({modalShow:isShow})
   }
-  //处理退出按钮
-  logout=()=>{
-  //更新状态
-    this.setState({username:null})
-    //清除用户数据
-    localStorage.removeItem('username')
-    localStorage.removeItem('userId')
 
-  }
-  componentDidmount(){
+  componentDidMount(){
       //读取保存到浏览器的用户名
       const username=localStorage.getItem('username')
       if(username){
@@ -32,17 +24,21 @@ state={
       }
   }
   //鼠标移入导航标签
- clickMenu=({key})=>{
-  //如果点击的是‘登陆/注册’
-   if(key==='logout'){
-     //显示modal
 
-     this.setState({modalShow:true})
-   }
-    this.setState({selectedKey:key})
- }
- //处理提交登陆的请求
-  handleSubmit=(isLogin)=>{
+  clickMenu = ({key}) => {
+    // 如果点击的是'登陆/注册'
+    if(key==='logout') {
+      // 显示modal
+      this.setState({modalShow: true})
+    }
+
+    // 更新状态
+    this.setState({selectedKey: key})
+  }
+
+  //处理提交登陆的请求
+  handleSubmit=(isLogin,event)=>{
+    event.preventDefault()
     const {username,password,r_userName,r_password,r_confirmPassword}=this.props.form.getFieldsValue()
     let url='http://newsapi.gugujiankong.com/Handler.ashx?'
       if (isLogin){
@@ -81,6 +77,14 @@ axios.get(url)
 //关闭Modal
     this.setState({modalShow:false})
   }
+  //处理退出按钮
+  logout = () => {
+    //更新状态
+    this.setState({username: null})
+    // 清除保存的用户数据
+    localStorage.removeItem('username')
+    localStorage.removeItem('userId')
+  }
   render(){
   const {selectedKey,username,modalShow}=this.state
     //判断是否登陆，以显示页面
@@ -95,6 +99,7 @@ axios.get(url)
         <Icon type="appstore"/>注册/登陆
       </Menu.Item>
     )
+    console.log(username);
     const { getFieldDecorator}=this.props.form
     return(
       <div>

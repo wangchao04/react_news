@@ -1,37 +1,34 @@
-//新闻详情
-import React,{Component}from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
-import NewsImageBlock from './news_image_block'
 import {Row,Col,BackTop} from 'antd'
+import NewsImageBlock from './news_image_block'
 import NewsComments from './news_comments'
-export default class NwesDetail extends Component{
+export default class NewsDetail extends Component {
   state={
-    news:{}
+    news: {}
   }
-  //定义发送axios函数,以便重复调用
-  showNewsDetail(uniquekey){
-    const url=`http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=${uniquekey}`
+  showNewsDetail(uniquekey) {
+    const url = `http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=${uniquekey}`
     axios.get(url)
-      .then(res=>{
-        const news=res.data
+      .then(response => {
+        const news = response.data
         this.setState({news})
-        //更新标题
-        document.title=news.title
+        document.title = news.title
       })
   }
   componentDidMount(){
-    const {uniquekey}=this.props.params
+    const {uniquekey} =this.props.params
     this.showNewsDetail(uniquekey)
   }
-  //组件接受到新属性触发
   componentWillReceiveProps(newProps){
     this.showNewsDetail(newProps.params.uniquekey)
   }
-  render(){
-    const {news}=this.state
-    const {type,uniquekey}=this.props.params
-console.log(this.props)
-    return(
+
+
+  render() {
+    const {news} =this.state
+    const {type,uniquekey} =this.props.params
+    return (
       <div>
         <Row>
           <Col span={1}></Col>
@@ -40,11 +37,11 @@ console.log(this.props)
             <NewsComments uniquekey={uniquekey}></NewsComments>
           </Col>
           <Col span={6}>
-            <NewsImageBlock cardTitle='相关新闻' type={type} count={40} cardWidth="100%" imageWidth="150px"/>
+            <NewsImageBlock type={type} count={40} cardWidth='100%' imageWidth='150px' cardTitle="相关新闻"></NewsImageBlock>
           </Col>
           <Col span={1}></Col>
         </Row>
-        <BackTop/>
+        <BackTop />
       </div>
     )
   }
